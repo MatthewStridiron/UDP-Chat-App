@@ -19,7 +19,7 @@ client2_port))
 
 <b> Additional Data Structures on Client Side </b>
 
-<b> Buffered_private_messages <b> - structure that stores all of the private messages sent to a
+<b> Buffered_private_messages </b> - structure that stores all of the private messages sent to a
 client while it is in group chat mode. As soon as the client leaves the group chat mode, the
 structure will print out all of the buffered messages and empty out.
 
@@ -49,16 +49,17 @@ the client will update this variable to true and remain in session.
 <b> ChatApp.py </b>
 All input to the terminal is parsed using argparse.
 Expected server input is <b> python3 ChatApp.py -s <server_port> </b>. Input is passed into serverMode.
-Expected client input is <b> python3 ChatApp.py -c <client_name> <client_ip> <server_port> <client_port> </b>. 
-  
-Input is passed into clientMode.
+Expected client input is <b> python3 ChatApp.py -c <client_name> <client_ip> <server_port> <client_port> </b>. Input is passed into clientMode.
+
 All testing was done with a clientIP = localhost or 127.0.0.1.
-UDPClient.py
+  
+<b> UDPClient.py </b>
 clientMode() - Everything within the while True statement is for the client to input text within
 group mode and non-group mode. A socket is dedicated to sending out messages. Here are the
 commands:
-Non-Group Mode:
-send <client_name> <message> - The clients should communicate to each other directly and
+  
+<b> Non-Group Mode: </b>
+  <b> send <client_name> <message> </b> - The clients should communicate to each other directly and
 must not use the server to forward chat messages. This command should make the client look
 up the IP address and port number of the recipient client from its local table and send the
 message to the appropriate client. The client which sends the message has to wait for an ack
@@ -70,13 +71,15 @@ update their tables. The client should also keep track of whether it is in a gro
 client is in a group chat room, it should not print any private messages while it is in the room and
 instead store the messages in the buffered_private_messages structure. Once the client
 leaves the group chat, those messages should be displayed.
-dereg <client_name> - a book-keeping function to keep track of active clients. This
-functionality involves both client and server parts.
+    
+<b> dereg <client_name> </b> - a book-keeping function to keep track of active clients. This functionality involves both client and server parts. 
+
 On the server's end:
 When the server receives a de-registration request from a client, it has to change the respective
 client’s status to offline in the table. This offline status prevents other users from private
 messaging the selected client. The server then has to broadcast the updated table to all the
 active (online) clients, as well as send an ack to the client which requested de-registration.
+      
 On the client’s end:
 You can only deregister yourself, not other users. When a client is about to go offline, it has to
 send a de-registration request to the server to announce that it is going offline. The client has to
@@ -84,37 +87,47 @@ wait for an ack from the server within 500 msecs. If it does not receive an ack,
 retry for 5 times. All the other active clients, when they receive the table from the server, should
 update their respective local tables.
 Once this is completed, the client disconnects from the session entirely.
-create_group <group_name> - creates a group name that does not yet exist. If the groupname
+      
+<b> create_group <group_name> </b> - creates a group name that does not yet exist. If the groupname
 does exist, then the client will receive a response from the server saying so.
 list_groups - a request made by the client to the server requesting a list of all available groups
 to join. If there are no groups, the server returns an empty string.
-join_group <group_name> - puts a user into a group. If the group does not exist, the server
+
+<b> join_group <group_name> </b> - puts a user into a group. If the group does not exist, the server
 will tell the client that it needs to be created. Once a user joins a group, they will not have
 access to some of these commands unless they leave the group.
-Group Mode:
-send_group <message> - sends a message to the other users in the group. Once the server
+  
+<b> Group Mode: </b>
+<b> send_group <message> </b> - sends a message to the other users in the group. Once the server
 receives the message, it broadcasts it to the other clients. As the server also sends a separate
 ack request to the sending client, it awaits ACKs from the receiving clients. If ACKs are not
 received by the clients, they are removed from the group.
-list_members - returns a list of all of the members in the group
-dereg - Similar to dereg in non_group mode, this command removes a client from the group
+  
+<b> list_members </b> - returns a list of all of the members in the group
+
+<b> dereg <client> </b> - Similar to dereg in non_group mode, this command removes a client from the group
 chat, updates the status of the client in the table to offline (a “No” value), and removes it from
 the session entirely.
-leave_group - returns a client to non_group mode.
-clientListen() - Everything inside the while true statement involves a listening socket
+  
+<b> leave_group </b> - returns a client to non_group mode.
+  
+<b> clientListen() </b> - Everything inside the while true statement involves a listening socket
 receiving messages coming from the server or other users. Each message that is sent has a
 “header” value. Depending on what that “header” value is, the client will process the information
 accordingly.
+  
 For example: When the program enters the whileLoop statement for the first time, it immediately
 requests the client table information from the server using the “REQUEST_TABLE” header. This
 statement always runs exactly once because it marks the first time that the client session is
 enabled. If the client table ever needs to be updated, the listen_socket will parse an
 “UPDATEDTABLE” header and refer to the “updateTable” function elsewhere.
-UDPServer.py
-serverMode() - given how multiple users are interacting in a session, there is a need for
+  
+<b> UDPServer.py </b>
+<b> serverMode() </b> - given how multiple users are interacting in a session, there is a need for
 multithreading. Upon reaching the serverMode function, a new thread is created so the
 incoming requests can be processed instantaneously.
-ack_handle() - Each message that the users send to the server has a “header” value.
+
+  <b> ack_handle() </b> - Each message that the users send to the server has a “header” value.
 Depending on what that “header” value is, the client will process the information accordingly.
 For example, in the “registration” header, it parses out the client_port, client_ip, and clientName
 so that the user is appended to the server’s client table. A general ACK is sent back to the
