@@ -48,8 +48,7 @@ the client will update this variable to true and remain in session.
 <b> FILE STRUCTURE, IN-BUILT FUNCTIONS, AND DESIGN CHOICES </b>
 <b> ChatApp.py </b>
 All input to the terminal is parsed using argparse.
-  Expected server input is <b> python3 ChatApp.py -s <server_port> </b>. Input is passed into
-serverMode.
+Expected server input is <b> python3 ChatApp.py -s <server_port> </b>. Input is passed into serverMode.
 Expected client input is <b> python3 ChatApp.py -c <client_name> <client_ip> <server_port> <client_port> </b>. 
   
 Input is passed into clientMode.
