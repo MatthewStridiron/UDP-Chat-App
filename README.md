@@ -1,31 +1,34 @@
 # UDP-Chat-App
 
-<b> Data Structures on Client and Server Side </b>
+#Data Structures on Client and Server Side
 
-Client_table - dictionary that stores all information about the clients. Key name is the
+<b> Client_table </b> - dictionary that stores all information about the clients. Key name is the
 clientName. Value is a tuple. The client table is used on the client side to send private
 messages. It will know whether clients are active without going to the server for that information.
 Unless the client is unable to private message another user, however, any updated table
 information should come from the server.
 Example: client_table[clientName] = (clientName, clientIP, client_port, "Yes")
 
-clientName_table - set that stores all of the clientNames. This structure exists to make
+<b> clientName_table </b> - set that stores all of the clientNames. This structure exists to make
 indexing the dictionary become O(1) time.
 
-group_chats - dictionary that stores all information about the clients in group chats. Key
+<b> group_chats </b> - dictionary that stores all information about the clients in group chats. Key
 name is the groupName. Value is a set of tuples.
 Example: group_chats[groupName] = set((client1, clientIP, client1_port), (client2, clientIP,
 client2_port))
 
-#Additional Data Structures on Client Side
-#Buffered_private_messages# - structure that stores all of the private messages sent to a
+<b> Additional Data Structures on Client Side </b>
+
+<b> Buffered_private_messages <b> - structure that stores all of the private messages sent to a
 client while it is in group chat mode. As soon as the client leaves the group chat mode, the
 structure will print out all of the buffered messages and empty out.
-userGroup - a string that identifies whether a user is in a group. If it is not in a group, the
+
+<b> userGroup </b> - a string that identifies whether a user is in a group. If it is not in a group, the
 string remains “”. This string is particularly useful because the user can only execute certain
 commands while in group/non-group chat modes. Its value serves as a limiter to what
 commands the user can type within the clientMode function.
-usersPrivateMessaged - a dictionary that stores all of the private message sessions that a
+  
+<b> usersPrivateMessaged </b> - a dictionary that stores all of the private message sessions that a
 client has with other users. The key is a clientName, and the value is a true/false statement. You
 use this structure in the “send” command of clientMode. Initially, the value for a given
 clientName is set to false, but if it hears back from the receiving end, it is set to true. When the
@@ -33,21 +36,23 @@ value is set to true, the server won’t remove the receiving client from the se
 connectivity to the client was verified. If the value remained false, no connection would have
 been made. It would have been removed from the session, and all other client tables among
 different users would have been updated.
-serverResponding - a global variable that confirms whether a server sent an ACK back to a
+  
+<b> serverResponding </b> - a global variable that confirms whether a server sent an ACK back to a
 client. Many of the functions send 5 packets to the server for it to parse, in the event that one of
 them were to be lost in transit, though the functions send fewer packets if the server happens to
 respond to one of them sooner. Initially, serverResponding’s value is set to false. Should the
 server never send an ACK back to the client, this variable’s false value will cause the client to
 disconnect from the session because the server is down. On the other hand, if the server is up,
 the client will update this variable to true and remain in session.
-FILE STRUCTURE, IN-BUILT FUNCTIONS, AND DESIGN
-CHOICES
-ChatApp.py
+  
+<b> FILE STRUCTURE, IN-BUILT FUNCTIONS, AND DESIGN CHOICES </b>
+<b> ChatApp.py </b>
 All input to the terminal is parsed using argparse.
-Expected server input is python3 ChatApp.py -s <server_port>. Input is passed into
+  Expected server input is <b> python3 ChatApp.py -s <server_port> </b>. Input is passed into
 serverMode.
-Expected client input is python3 ChatApp.py -c <client_name> <client_ip> <server_port>
-<client_port>. Input is passed into clientMode.
+Expected client input is <b> python3 ChatApp.py -c <client_name> <client_ip> <server_port> <client_port> </b>. 
+  
+Input is passed into clientMode.
 All testing was done with a clientIP = localhost or 127.0.0.1.
 UDPClient.py
 clientMode() - Everything within the while True statement is for the client to input text within
