@@ -1,4 +1,4 @@
-# UDP-Chat-App
+# UDP-Networking Chat-App
 
 <b> Data Structures on Client and Server Side </b>
 
