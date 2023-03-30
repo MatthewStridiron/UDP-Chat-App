@@ -1,6 +1,6 @@
 # UDP-Chat-App
 
-#Data Structures on Client and Server Side
+<b> Data Structures on Client and Server Side </b>
 
 Client_table - dictionary that stores all information about the clients. Key name is the
 clientName. Value is a tuple. The client table is used on the client side to send private
