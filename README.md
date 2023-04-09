@@ -53,10 +53,11 @@ Expected client input is <b> python3 ChatApp.py -c <client_name> <client_ip> <se
 
 All testing was done with a clientIP = localhost or 127.0.0.1.
   
-<b> UDPClient.py </b>
-clientMode() - Everything within the while True statement is for the client to input text within
-group mode and non-group mode. A socket is dedicated to sending out messages. Here are the
-commands:
+<b> UDPClient.py </b> <br>
+
+<b> clientMode() function </b> - Everything within the while True statement of clientMode is for the client to input text within
+<b> group mode </b> and <b> non-group mode </b>. Group mode is defined as when a user enters a group. Non-group mode is defined as when a user does not enter a group. A socket is dedicated to sending out messages in both group mode and non group mode. Here are the
+commands for the two modes respectively:
   
 <b> Non-Group Mode: </b>
   <b> send <client_name> <message> </b> - The clients should communicate to each other directly and
@@ -90,7 +91,8 @@ Once this is completed, the client disconnects from the session entirely.
       
 <b> create_group <group_name> </b> - creates a group name that does not yet exist. If the groupname
 does exist, then the client will receive a response from the server saying so.
-list_groups - a request made by the client to the server requesting a list of all available groups
+
+<b> list_groups </b> - a request made by the client to the server requesting a list of all available groups
 to join. If there are no groups, the server returns an empty string.
 
 <b> join_group <group_name> </b> - puts a user into a group. If the group does not exist, the server
