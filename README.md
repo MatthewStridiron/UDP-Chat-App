@@ -44,7 +44,7 @@ respond to one of them sooner. Initially, serverResponding’s value is set to f
 server never send an ACK back to the client, this variable’s false value will cause the client to
 disconnect from the session because the server is down. On the other hand, if the server is up,
 the client will update this variable to true and remain in session.
-   -------------------------------------------------------------------------
+  
 <b> FILE STRUCTURE, IN-BUILT FUNCTIONS, AND DESIGN CHOICES </b>
 <b> ChatApp.py </b>
 All input to the terminal is parsed using argparse.
@@ -112,8 +112,7 @@ chat, updates the status of the client in the table to offline (a “No” value
 the session entirely.
   
 <b> leave_group </b> - returns a client to non_group mode.
-  
--------------------------------------------------------------------------
+  </br>
 <b> clientListen() function of UDPClient.py </b> - Everything inside the while true statement involves a listening socket
 receiving messages coming from the server or other users. Each message that is sent has a
 “header” value. Depending on what that “header” value is, the client will process the information
