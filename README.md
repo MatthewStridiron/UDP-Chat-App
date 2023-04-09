@@ -112,8 +112,7 @@ chat, updates the status of the client in the table to offline (a “No” value
 the session entirely.
   
 <b> leave_group </b> - returns a client to non_group mode.
-  </br>
-     -------------------------------------------------------------------------
+-------------------------------------------------------------------------
 <b> clientListen() function of UDPClient.py </b> - Everything inside the while true statement involves a listening socket
 receiving messages coming from the server or other users. Each message that is sent has a
 “header” value. Depending on what that “header” value is, the client will process the information
