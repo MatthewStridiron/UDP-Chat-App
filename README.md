@@ -56,9 +56,9 @@ disconnect from the session because the server is down. On the other hand, if th
 the client will update this variable to true and remain in session.
  
    -------------------------------------------------------------------------
-<b> UDPClient.py </b> <br>
+  <b> <h1> UDPClient.py </h1> </b> <br>
 
-<b> clientMode() function of UDPClient.py </b> - Everything within the while True statement of clientMode is for the client to input text within
+  <b> <h2> clientMode() </h2> function of UDPClient.py </b> - Everything within the while True statement of clientMode is for the client to input text within
 <b> group mode </b> and <b> non-group mode </b>. Group mode is defined as when a user enters a group. Non-group mode is defined as when a user does not enter a group. A socket is dedicated to sending out messages in both group mode and non group mode. Here are the
 commands for the two modes respectively:
   
@@ -116,8 +116,7 @@ the session entirely.
   
 <b> leave_group </b> - returns a client to non_group mode.
   
--------------------------------------------------------------------------
-<b> clientListen() function of UDPClient.py </b> - Everything inside the while true statement involves a listening socket
+  <b> <h2> clientListen() </h2> function of UDPClient.py </b> - Everything inside the while true statement involves a listening socket
 receiving messages coming from the server or other users. Each message that is sent has a
 “header” value. Depending on what that “header” value is, the client will process the information
 accordingly.
@@ -129,12 +128,12 @@ enabled. If the client table ever needs to be updated, the listen_socket will pa
 “UPDATEDTABLE” header and refer to the “updateTable” function elsewhere.
   
  -------------------------------------------------------------------------
-<b> UDPServer.py </b>
-<b> serverMode() function of UDPServer.py </b> - given how multiple users are interacting in a session, there is a need for
+  <b> <h1> UDPServer.py </h1> </b>
+  <b> <h2> serverMode() </h2> function of UDPServer.py </b> - given how multiple users are interacting in a session, there is a need for
 multithreading. Upon reaching the serverMode function, a new thread is created so the
 incoming requests can be processed instantaneously.
 
-  <b> ack_handle() of UDPServer.py </b> - Each message that the users send to the server has a “header” value.
+  <b> <h2> ack_handle() </h2> of UDPServer.py </b> - Each message that the users send to the server has a “header” value.
 Depending on what that “header” value is, the client will process the information accordingly.
 For example, in the “registration” header, it parses out the client_port, client_ip, and clientName
 so that the user is appended to the server’s client table. A general ACK is sent back to the
