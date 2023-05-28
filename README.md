@@ -1,5 +1,13 @@
 # UDP-Networking Chat-App
 
+<b> FILE STRUCTURE, IN-BUILT FUNCTIONS, AND DESIGN CHOICES </b>
+<b> ChatApp.py </b>
+All input to the terminal is parsed using argparse.
+Expected server input is <b> python3 ChatApp.py -s <server_port> </b>. Input is passed into serverMode.
+Expected client input is <b> python3 ChatApp.py -c <client_name> <client_ip> <server_port> <client_port> </b>. Input is passed into clientMode.
+
+All testing was done with a clientIP = localhost or 127.0.0.1.
+
 <b> Data Structures on Client and Server Side </b>
 
 <b> Client_table </b> - dictionary that stores all information about the clients. Key name is the
@@ -44,14 +52,7 @@ respond to one of them sooner. Initially, serverResponding’s value is set to f
 server never send an ACK back to the client, this variable’s false value will cause the client to
 disconnect from the session because the server is down. On the other hand, if the server is up,
 the client will update this variable to true and remain in session.
-  
-<b> FILE STRUCTURE, IN-BUILT FUNCTIONS, AND DESIGN CHOICES </b>
-<b> ChatApp.py </b>
-All input to the terminal is parsed using argparse.
-Expected server input is <b> python3 ChatApp.py -s <server_port> </b>. Input is passed into serverMode.
-Expected client input is <b> python3 ChatApp.py -c <client_name> <client_ip> <server_port> <client_port> </b>. Input is passed into clientMode.
-
-All testing was done with a clientIP = localhost or 127.0.0.1.
+ 
    -------------------------------------------------------------------------
 <b> UDPClient.py </b> <br>
 
