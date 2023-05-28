@@ -3,7 +3,9 @@
 <b> FILE STRUCTURE, IN-BUILT FUNCTIONS, AND DESIGN CHOICES </b>
 <b> ChatApp.py </b>
 All input to the terminal is parsed using argparse.
+<br></br>
 Expected server input is <b> python3 ChatApp.py -s <server_port> </b>. Input is passed into serverMode.
+  <br></br>
 Expected client input is <b> python3 ChatApp.py -c <client_name> <client_ip> <server_port> <client_port> </b>. Input is passed into clientMode.
 
 All testing was done with a clientIP = localhost or 127.0.0.1.
