@@ -58,7 +58,7 @@ the client will update this variable to true and remain in session.
    -------------------------------------------------------------------------
   <b> <h1> UDPClient.py </h1> </b> <br>
 
-  <b> <h2> clientMode() </h2> function of UDPClient.py </b> - Everything within the while True statement of clientMode is for the client to input text within
+  <b> <h2> clientMode() </h2> </b> Everything within the while True statement of clientMode is for the client to input text within
 <b> group mode </b> and <b> non-group mode </b>. Group mode is defined as when a user enters a group. Non-group mode is defined as when a user does not enter a group. A socket is dedicated to sending out messages in both group mode and non group mode. Here are the
 commands for the two modes respectively:
   
@@ -116,7 +116,7 @@ the session entirely.
   
 <b> leave_group </b> - returns a client to non_group mode.
   
-  <b> <h2> clientListen() </h2> function of UDPClient.py </b> - Everything inside the while true statement involves a listening socket
+  <b> <h2> clientListen() </h2> </b> Everything inside the while true statement involves a listening socket
 receiving messages coming from the server or other users. Each message that is sent has a
 “header” value. Depending on what that “header” value is, the client will process the information
 accordingly.
