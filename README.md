@@ -1,7 +1,7 @@
 # UDP-Networking Chat-App
 <h1> Video Explanation </h1>
 <b> https://www.youtube.com/watch?v=FLXTOsXcyGg&ab_channel=MatthewStridiron </b>
-<br>
+<br> </br>
 <b> FILE STRUCTURE, IN-BUILT FUNCTIONS, AND DESIGN CHOICES </b>
 
 <b> ChatApp.py </b>
