@@ -78,14 +78,17 @@ def ack_handle(serverSocket, clientIP, lines):
                 break
         group_chats[groupName].remove(tuple_to_remove)
 
+        client_table[clientName] = (clientName, clientIP, client_port, "No")
+        updateTable(serverSocket)
+
         print(">>> [Client <" + clientName + "> left group <" + groupName + ">]")
         msg = "leave_group\n"
         serverResponse(msg, serverSocket, clientIP, client_port)
 
         # now update the clienttable since this user has been deregistered
         # del client_table[clientName]
-        client_table[clientName] = (clientName, clientIP, client_port, "No")
-        updateTable(serverSocket)
+        #client_table[clientName] = (clientName, clientIP, client_port, "No")
+        #updateTable(serverSocket)
     
     if header == "list_members":
         groupName = lines[1]
@@ -248,14 +251,10 @@ def ack_handle(serverSocket, clientIP, lines):
         client_ip = lines[2]
         clientName = lines[3]
 
-        # if clientName not in clientName_table:
         clientName_table.add(clientName)
         client_table[clientName] = (clientName, client_ip, client_port, "Yes")
-        # can't I just call updateTable here and get rid of the UPDATE_TABLE SIGNAL?
-        server_send = threading.Thread(target=generalACKResponse, args=(serverSocket, client_ip, client_port))
-        server_send.start()
-
-    print(client_table)
+        updateTable(serverSocket)
+    
 
 #will eventually have to start server process using ChatApp -s <port>
 def serverMode(serverPort):
