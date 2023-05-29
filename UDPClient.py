@@ -12,7 +12,7 @@ buffered_private_messages = {}
 serverResponding = Value('b', False)
 
 userGroup = ""
-
+newEntry = True
 def updateTable(clientName, clientIP, clientPort, clientStatus):
     clientName_table.add(clientName)
     client_table[clientName] = (clientName, clientIP, clientPort, clientStatus)
@@ -24,24 +24,31 @@ def clientListen(clientName, serverIP, clientPort, serverPort): #pass in the sen
     global userGroup
     global buffered_private_messages
 
-    clientSocket = socket(AF_INET, SOCK_DGRAM)
-    clientSocket.connect((serverIP, serverPort))
-
     listen_socket = socket(AF_INET, SOCK_DGRAM)
     listen_socket.bind(('', clientPort))
     newEntry = True
 
     while True:
-        
-        if newEntry: #request the rest of the table
-            msg = "REQUEST_TABLE\n" + str(clientPort) + "\n" + serverIP
-            clientSocket.sendto(msg.encode(), (serverIP, serverPort))
-            newEntry = False
-
+      
+        #if newEntry: #request the rest of the table
+        #    msg = "REQUEST_TABLE\n" + str(clientPort) + "\n" + serverIP
+        #    clientSocket.sendto(msg.encode(), (serverIP, serverPort))
+        #    newEntry = False
         sender_message, sender_address = listen_socket.recvfrom(4096)
         sender_message = sender_message.decode()
-      
         lines = sender_message.splitlines()
+
+        if lines[0] == "register_error": # occurs when you are trying to sign in a previously registered user with a different IP or port.
+            print("User already has a predefined port and IP address within the system. Please use the pre-existing configurations.")
+            clientSocket.close()
+            listen_socket.close()
+            return
+
+#        if newEntry: #request the rest of the table
+#            msg = "REQUEST_TABLE\n" + str(clientPort) + "\n" + serverIP
+#            clientSocket.sendto(msg.encode(), (serverIP, serverPort))
+#            newEntry = False
+#            print("NEWENTRY: ", newEntry)
 
         if userGroup != "": #means that the user belongs to a group
             if lines[0] == "close":
@@ -80,6 +87,7 @@ def clientListen(clientName, serverIP, clientPort, serverPort): #pass in the sen
                     newClientPort = lines[i+2]
                     newClientStatus = lines[i+3]
                     updateTable(newClientName, newClientIP, newClientPort, newClientStatus)
+                print(client_table)
                 print("[Client table updated.]")
             elif lines[0] == "send": #ACK Response created by private message client recipient
                 senderName = lines[3]
@@ -125,6 +133,7 @@ def clientListen(clientName, serverIP, clientPort, serverPort): #pass in the sen
                     newClientStatus = lines[i+3]
                     updateTable(newClientName, newClientIP, newClientPort, newClientStatus)
                 print("[Client table updated.]")
+                print(client_table)
             elif lines[0] == "send": #ACK Response created by private message client recipient
                 senderName = lines[3]
                 client_ip = client_table[clientName][1]
@@ -144,6 +153,8 @@ def clientListen(clientName, serverIP, clientPort, serverPort): #pass in the sen
                 if lines[0] == "ack":
                     msg = lines[2]
                     print("Received message: ", msg, " from the sender.")
+                    req = "REQUEST_TABLE\n" + str(clientPort) + "\n" + serverIP
+                    clientSocket.sendto(req.encode(), (serverIP, serverPort))
             elif lines[0] == "invalid_reg":
                 print("Cannot register user with a name that is already within the system.")
 
@@ -151,15 +162,19 @@ def clientListen(clientName, serverIP, clientPort, serverPort): #pass in the sen
 def clientMode(clientName, IP, serverPort, clientPort):
     
     #socket
+    global newEntry
     global userGroup
     global clientSocket
+    newEntry = True
     clientSocket = socket(AF_INET, SOCK_DGRAM)
+
+    updateTable(clientName, IP, clientPort, "Yes")
+
     #send first message - may already be registered, or not.
     first_message = "registration\n" + str(clientPort)  + "\n" + IP + "\n" + clientName
     clientSocket.sendto(first_message.encode(), (IP, serverPort))
 
-
-#multi-threading
+    #multi-threading
     listen = threading.Thread(target=clientListen, args=(clientName, IP, clientPort, serverPort))
     listen.start()
 
@@ -168,7 +183,8 @@ def clientMode(clientName, IP, serverPort, clientPort):
             print(">>> ", end="")
         else:
             print(">>> ("+userGroup+") ", end="")
-        
+    
+
         temp = input()
 
         if temp == "ctrl + c":
@@ -473,8 +489,10 @@ def clientMode(clientName, IP, serverPort, clientPort):
                         offline_message = "BADACK\n" + str(destinationPort) + "\n" + destination
 
                         clientSocket.sendto(offline_message.encode(), (IP, serverPort))
-                        del client_table[destination]
-                        clientName_table.remove(destination)
+                        
+                        
+                         # client_table[clientName] = (clientName, client_ip, client_port, "Yes")
+                        client_table[destination] = (destination, destinationIP, destinationPort, "No")
 
                     usersPrivateMessaged[destination] = False
             else:
